@@ -1,5 +1,6 @@
 import { User } from "./User"
+import { Profile } from "./Profile"
 
-const entities = [ User ]
+const entities = [ User , Profile ]
 
 export default entities
