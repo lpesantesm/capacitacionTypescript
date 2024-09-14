@@ -1,21 +1,31 @@
 import { AppDataSource } from "./data-source"
-import { User } from "./entity/User"
+
+
+import express, {} from 'express'
+
+
+import apiRoutes from './modules/auth/routes'
+import apiUsers from "./modules/users/routes"
+//import apiDollar from "./modules/dollar/routes" //faltan hacer
+//import apiRestCountries from "./modules/countries/routes" //faltan hacer
+
+import {PORT, application} from './env/environments'
+
+const app = express()
 
 AppDataSource.initialize().then(async () => {
 
-    console.log("Inserting a new user into the database...")
-    const user = new User()
-    user.firstName = "Timber"
-    user.lastName = "Saw"
-    user.age = 25
-    user.dayOfBirth = new Date()
-    await AppDataSource.manager.save(user)
-    console.log("Saved a new user with id: " + user.id)
+    const prefix = '/api'
 
-    console.log("Loading users from the database...")
-    const users = await AppDataSource.manager.find(User)
-    console.log("Loaded users: ", users)
-
-    console.log("Here you can setup and run express / fastify / any other framework.")
-
+    // routes 
+    app.use(`${prefix}/auth`, apiRoutes)
+    app.use(`${prefix}/users`, apiUsers)
+    
+    app.listen(PORT, () => {
+        console.log('el servidor esta funcionando en el puerto:' , PORT)
+        console.log(`${prefix}/usuario`)
+        console.log(`Mode ${application.NODE_DEV ? 'Desarrollo' : 'Produccion'}`)
+    })
+ 
+    console.log('*** conexion con la base de datos es ESTABLE y esto se verifica primero ***')
 }).catch(error => console.log(error))
