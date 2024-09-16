@@ -18,4 +18,17 @@ export class User {
     @Column()
     dayOfBirth: Date
 
+    @Column({
+        nullable: true,
+        length: 100
+    })
+    email: string
+
+    @Column({
+        nullable: true,
+        default:  'A',
+        length: 1
+    })
+    state: string
+
 }

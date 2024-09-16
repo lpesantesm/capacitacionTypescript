@@ -1,5 +1,6 @@
 import { UserI } from "../../interfaces/user.interface"
 import apiJsonPlaceholder from "../apis/apiJsonPlaceHolder"
+import { UserRepository } from "./repository"
 
 export class UserService {
 
@@ -28,4 +29,22 @@ export class UserService {
         }
     }
 
+
+    async GetAllUserDatabase (){
+
+        try{
+            //const response = await UserRepository.find({where: {id: 10}})
+            const response1 = UserRepository.findOne({where : {id: 10}})
+            const response2 = UserRepository.findOne({where : {id: 10}})
+            const response3 = UserRepository.findOne({where : {id: 10}})
+            const response4 = UserRepository.findOne({where : {id: 10}})
+
+            const arregloDePromesas =[response1, response2, response3, response4]
+
+            await Promise.all(arregloDePromesas)
+            
+        } catch (error){
+            throw error
+        }
+    }
 }

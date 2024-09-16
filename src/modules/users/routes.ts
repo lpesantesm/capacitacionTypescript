@@ -14,4 +14,14 @@ routes.get('/all', async (req: Request, res: Response, next: NextFunction) => {
     }
 })
 
+routes.get('/database', async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        //const response = await 
+        
+    } catch (error) {
+        throw error
+    }
+
+})
+
 export default routes
