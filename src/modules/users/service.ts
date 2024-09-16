@@ -47,7 +47,7 @@ export class UserService {
             const query = UserRepository.createQueryBuilder()
             .select(["user"])
             .from(User, "user")
-                        
+            .where("user,state = :state",{ state: estado.toUpperCase()})            
 
             if(filtro){
                 query.where("upper(user.firstName) LIKE upper(:search)",{ search:'%${filtro}%' })
