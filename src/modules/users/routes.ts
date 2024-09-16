@@ -1,13 +1,14 @@
 import {NextFunction, Request, Response, Router} from "express"
 import { UserI, UsersQueryParamsI } from '../../interfaces/user.interface';
 import apiJsonPlaceholder from "../apis/apiJsonPlaceHolder";
-import { getAllUsersController, getUsersDatabase } from "./controller";
+import { createUserController, getAllUsersController, getUsersDatabase } from "./controller";
 import { sinTokenMdw } from "../../middleware/sinTokenMdw";
 import { EntityManager } from "typeorm";
+import { Usuario } from "../../entities/Usuario";
 
 const routes = Router();
 
-routes.get('/all', async (req: Request, res: Response, next: NextFunction) => {
+routes.get('/apijson', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const response = await getAllUsersController()
         res.json(response)
@@ -17,7 +18,7 @@ routes.get('/all', async (req: Request, res: Response, next: NextFunction) => {
 })
 
 routes.get(
-    '/database', 
+    '/all', 
     sinTokenMdw, 
     async(req: Request, res: Response, next: NextFunction) => {
     try {
@@ -31,5 +32,22 @@ routes.get(
     }
 
 })
+
+routes.post(
+    '/create',
+    sinTokenMdw, 
+    async(req: Request, res: Response, next: NextFunction) => {
+    try {
+        const body: Usuario =req.body
+        const cnx: EntityManager = global.conn 
+        const response = await createUserController(cnx, body)
+        res.json(response)
+    } catch (error) {
+        throw error
+    }
+
+})
+
+
 
 export default routes

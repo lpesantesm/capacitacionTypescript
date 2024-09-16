@@ -16,6 +16,8 @@ const app = express()
 AppDataSource.initialize().then(async () => {
 
     const prefix = '/api'
+    // ? configuracion de express
+    app.use(express.json())
 
     // routes 
     app.use(`${prefix}/auth`, apiRoutes)

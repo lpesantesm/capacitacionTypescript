@@ -1,5 +1,5 @@
 import { EntityManager } from "typeorm"
-import { User } from "../../entities/User"
+import { Usuario } from "../../entities/Usuario"
 import { UserI } from "../../interfaces/user.interface"
 import apiJsonPlaceholder from "../apis/apiJsonPlaceHolder"
 import  UserRepository  from "./repository"

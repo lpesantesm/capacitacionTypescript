@@ -1,22 +1,22 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
 @Entity()
-export class User {
+export class Usuario {
 
     @PrimaryGeneratedColumn()
     id: number
 
     @Column()
-    firstName: string
+    identificacion: string
 
     @Column()
-    lastName: string
+    nombres: string
 
     @Column()
-    age: number
-
+    apellidos: string
+    
     @Column()
-    dayOfBirth: Date
+    fechaNacimiento: Date
 
     @Column({
         nullable: true,
@@ -29,6 +29,6 @@ export class User {
         default:  'A',
         length: 1
     })
-    state: string
+    estado: string
 
 }
