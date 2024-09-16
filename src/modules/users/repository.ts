@@ -1,23 +1,27 @@
-//? aqui se utiliza los ORM
+import { EntityManager } from "typeorm"
+import { User } from "../../entities/User"
 
-import { EntityRepository, Repository } from "typeorm";
-import { User } from "../../entities/User";
-import { AppDataSource } from "../../connections/ormConfig";
+export default class UserRepository{
+    async findUsers(cnx: EntityManager,filtro: string, estado: string){
+    
+        const query =cnx.createQueryBuilder()
+        .select(["user"])
+        .from(User, "user")
+        //.where("user,state = :state",{ state: estado.toUpperCase() ?? 'A'})   
+        
+        if (estado){
+            query.andWhere("user,state = :estado",{ estado: estado.toUpperCase() ?? 'A'})
+        }
 
-//@EntityRepository(User)
-//export default class UserRepository extends Repository<User> {
-//    async GetUsers() {
-//       // ? Interactua directamente con la base de datos
-//        return this.createQueryBuilder()
-//    }
-//}
+        if(filtro){
+            query.andWhere("concat(upper(user.firstName),'', upper(user.lastName)) LIKE :search",{ search:`%${filtro.trim().toUpperCase()}%` })
+        }
 
-export const UserRepository = AppDataSource.getRepository(User).extend({
-    findUsers(filtro: string, estado: string ) {
-        return this.createQueryBuilder()
-            .select("user")
-            .from(User, "user")
-            //.where("")
+        console.log(query.getSql())
+
+        return await query.getRawMany();
+       
+    
     }
-})
-// ! configurar query personalizados
+
+}

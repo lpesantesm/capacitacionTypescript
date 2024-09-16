@@ -1,9 +1,16 @@
+import { EntityManager } from "typeorm"
 import { User } from "../../entities/User"
 import { UserI } from "../../interfaces/user.interface"
 import apiJsonPlaceholder from "../apis/apiJsonPlaceHolder"
-import { UserRepository } from "./repository"
+import  UserRepository  from "./repository"
 
 export class UserService {
+
+    userRespository: UserRepository
+
+    constructor(){
+        this.userRespository = new UserRepository()
+    }
 
     async GetUsersApiJsonPlaceholder(){
         // ? Es el que interactua con le repsoitorio (BD)
@@ -29,32 +36,13 @@ export class UserService {
             throw error
         }
     }
+ 
 
-
-    async GetAllUserDatabase (filtro: string, estado:string){
+    async GetAllUserDatabase (cnx: EntityManager,filtro: string, estado:string){
 
         try{
-            //const response = await UserRepository.find({where: {id: 10}})
-            //const response1 = UserRepository.findOne({where : {id: 10}})
-            //const response2 = UserRepository.findOne({where : {id: 10}})
-            //const response3 = UserRepository.findOne({where : {id: 10}})
-            //const response4 = UserRepository.findOne({where : {id: 10}})
-
-            //const arregloDePromesas =[response1, response2, response3, response4]
-
-            //await Promise.all(arregloDePromesas)
-
-            const query = UserRepository.manager.createQueryBuilder()
-            .select(["user"])
-            .from(User, "user")
-            //.where("user,state = :state",{ state: estado.toUpperCase() ?? 'A'})            
-
-            if(filtro){
-                query.andWhere("upper(user.firstName) LIKE upper(:search)",{ search:`%${filtro}%` })
-            }
-
-            const response =await query.getMany()
-            return response
+            const response = await this.userRespository.findUsers(cnx, filtro, estado)
+            return response  
         } catch (error){
             throw error
         }

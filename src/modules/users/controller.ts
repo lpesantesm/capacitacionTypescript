@@ -1,3 +1,4 @@
+import { EntityManager } from "typeorm";
 import { UsersQueryParamsI } from "../../interfaces/user.interface";
 import { UserService } from "./service"
 import { Response } from 'express';
@@ -10,10 +11,10 @@ export const getAllUsersController = async () => {
    return response
 }
 
-export const getUsersDatabase = async (params: UsersQueryParamsI) => {
+export const getUsersDatabase = async (cnx: EntityManager ,params: UsersQueryParamsI) => {
    try{
       //const {estado, filtro} = params  // esto no funciona
-      const response = await userService.GetAllUserDatabase(params?.filtro ?? '', params?.estado ?? '')
+      const response = await userService.GetAllUserDatabase(cnx, params?.filtro ?? '', params?.estado ?? '')
       return response
 
    }catch (error){
