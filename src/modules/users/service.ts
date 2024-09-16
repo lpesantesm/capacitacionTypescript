@@ -44,12 +44,16 @@ export class UserService {
 
             //await Promise.all(arregloDePromesas)
 
-            const response =await UserRepository.createQueryBuilder()
+            const query = UserRepository.createQueryBuilder()
             .select(["user"])
             .from(User, "user")
-            .where("upper(user.firstName) LIKE upper(:search)",{ search:'%${filtro}%' })
-            .getMany()
+                        
 
+            if(filtro){
+                query.where("upper(user.firstName) LIKE upper(:search)",{ search:'%${filtro}%' })
+            }
+
+            const response =await query.getMany()
             return response
         } catch (error){
             throw error
