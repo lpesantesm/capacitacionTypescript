@@ -1,3 +1,4 @@
+import { User } from "../../entities/User"
 import { UserI } from "../../interfaces/user.interface"
 import apiJsonPlaceholder from "../apis/apiJsonPlaceHolder"
 import { UserRepository } from "./repository"
@@ -30,19 +31,26 @@ export class UserService {
     }
 
 
-    async GetAllUserDatabase (){
+    async GetAllUserDatabase (filtro: string, estado:string){
 
         try{
             //const response = await UserRepository.find({where: {id: 10}})
-            const response1 = UserRepository.findOne({where : {id: 10}})
-            const response2 = UserRepository.findOne({where : {id: 10}})
-            const response3 = UserRepository.findOne({where : {id: 10}})
-            const response4 = UserRepository.findOne({where : {id: 10}})
+            //const response1 = UserRepository.findOne({where : {id: 10}})
+            //const response2 = UserRepository.findOne({where : {id: 10}})
+            //const response3 = UserRepository.findOne({where : {id: 10}})
+            //const response4 = UserRepository.findOne({where : {id: 10}})
 
-            const arregloDePromesas =[response1, response2, response3, response4]
+            //const arregloDePromesas =[response1, response2, response3, response4]
 
-            await Promise.all(arregloDePromesas)
-            
+            //await Promise.all(arregloDePromesas)
+
+            const response =await UserRepository.createQueryBuilder()
+            .select(["user"])
+            .from(User, "user")
+            .where("upper(user.firstName) LIKE upper(:search)",{ search:'%${filtro}%' })
+            .getMany()
+
+            return response
         } catch (error){
             throw error
         }

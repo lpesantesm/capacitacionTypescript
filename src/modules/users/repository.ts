@@ -12,5 +12,12 @@ import { AppDataSource } from "../../connections/ormConfig";
 //    }
 //}
 
-export const UserRepository = AppDataSource.getRepository(User)
+export const UserRepository = AppDataSource.getRepository(User).extend({
+    findUsers(filtro: string, estado: string ) {
+        return this.createQueryBuilder()
+            .select("user")
+            .from(User, "user")
+            //.where("")
+    }
+})
 // ! configurar query personalizados
