@@ -1,7 +1,7 @@
 import {NextFunction, Request, Response, Router} from "express"
-import { UserI } from '../../interfaces/user.interface';
+import { UserI, UsersQueryParamsI } from '../../interfaces/user.interface';
 import apiJsonPlaceholder from "../apis/apiJsonPlaceHolder";
-import { getAllUsersController } from "./controller";
+import { getAllUsersController, getUsersDatabase } from "./controller";
 
 const routes = Router();
 
@@ -16,8 +16,11 @@ routes.get('/all', async (req: Request, res: Response, next: NextFunction) => {
 
 routes.get('/database', async(req: Request, res: Response, next: NextFunction) => {
     try {
-        //const response = await 
-        
+         
+        const params: UsersQueryParamsI =req.query
+        const response = await getUsersDatabase(params)
+        res.json(response)
+
     } catch (error) {
         throw error
     }

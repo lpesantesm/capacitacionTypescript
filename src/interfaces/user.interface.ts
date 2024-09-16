@@ -27,3 +27,8 @@ export interface Company {
     catchPhrase: string;
     bs:          string;
 }
+
+export interface UsersQueryParamsI{
+    filtro?: string;
+    estado?:string;
+}
